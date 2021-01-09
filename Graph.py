@@ -17,7 +17,7 @@ class Graph:
         for i in range(0, nodesNum):
             for j in range(0, nodesNum):
                 if(i < j):
-                    newEdge = Edge(self.nodes[j],random.uniform(0, 1))
+                    newEdge = Edge(self.nodes[j],random.uniform(0, 1))#RANDOM
                     self.nodes[i].connectedEdges.append(newEdge)
                 elif(i > j):
                     newEdge = Edge(self.nodes[j], self.nodes[j].connectedEdges[i-1].weight) 
