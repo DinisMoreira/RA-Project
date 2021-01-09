@@ -8,6 +8,7 @@ class Graph:
         self.nodes = []
         self.edges = []
 
+        #Generate Nodes
         for i in range(0, nodesNum):
             newNode = Node(i)
             self.nodes.append(newNode)
@@ -28,4 +29,4 @@ class Graph:
         for i in range(0, len(self.nodes)):
             print("Node " + str(self.nodes[i].id))
             for j in range(0, len(self.nodes[i].connectedEdges)):
-                print("Edge to Node " + str(self.nodes[i].connectedEdges[j].otherNode.id) + " with weight: " + str(self.nodes[i].connectedEdges[j].weight))
+                print("\tEdge to Node " + str(self.nodes[i].connectedEdges[j].otherNode.id) + " with weight: " + str(self.nodes[i].connectedEdges[j].weight))
