@@ -18,13 +18,14 @@ class Graph:
                 if(i < j):
                     newEdge = Edge(self.nodes[j],random.uniform(0, 1))
                     self.nodes[i].connectedEdges.append(newEdge)
-                #elif(i > j):
-            
-            #generate new random weight for edges connected to nodes with bigger id numbers
-            #get the weight of the existing edge from the edges connected to nodes with lower id numbers
-
+                elif(i > j):
+                    newEdge = Edge(self.nodes[j], self.nodes[j].connectedEdges[i-1].weight) 
+                    self.nodes[i].connectedEdges.append(newEdge)
+                
+        
 
     def print(self):
-        #print("Nodes = " + str(self.nodes))
-        #print("Edges = " + str(self.edges))
-        return
+        for i in range(0, len(self.nodes)):
+            print("Node " + str(self.nodes[i].id))
+            for j in range(0, len(self.nodes[i].connectedEdges)):
+                print("Edge to Node " + str(self.nodes[i].connectedEdges[j].otherNode.id) + " with weight: " + str(self.nodes[i].connectedEdges[j].weight))

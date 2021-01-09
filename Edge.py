@@ -5,5 +5,5 @@ class Edge:
         self.weight = weight
 
     def print(self):
-        print("Connection to node " + str(self.otherNode) + " = " + str(self.weight))
+        print("Connection to node " + str(self.otherNode) + " has weight = " + str(self.weight))
         return
