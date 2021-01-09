@@ -48,17 +48,13 @@ def newNodeReached(graph, newNode):
         for edge in graph.nodes[node.id].connectedEdges:
             print("Node " + str(node.id) + ", edge " + str(edge.otherNode.id))
     print("-----------------------------------------------")
+    
     #Remove every edge on "availableEdges" that leads to the reached node
-    """for edge in availableEdges:
-        if(edge.otherNode == newNode):
-            availableEdges.remove(edge)"""
-
     availableEdges[:] = [edge for edge in availableEdges if not (edge.otherNode == newNode)]
 
     #Add the new edges from the new node to the "availabreEdges" vector
     for edge in newNode.connectedEdges:
         bisect.insort(availableEdges, edge)
-        #availableEdges.append(edge)
 
     #Add new node to "nodesReached" vector
     nodesReached.append(newNode)
