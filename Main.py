@@ -12,26 +12,27 @@ def prim(graph):
     graphSize = len(graph.nodes)
     print("PRIM'S ALGORITHM : " + str(graphSize))
     currentVertexIndex = random.randint(0, len(graph.nodes)-1)#RANDOM
-    print("Initial Vertex = " + str(currentVertexIndex))
+    #print("Initial Vertex = " + str(currentVertexIndex))
 
     currentNode = graph.nodes[currentVertexIndex]
 
     while(len(nodesReached) < graphSize):
+
         newNodeReached(graph, currentNode)
         
-        printNodesReached()
-        printAvailableEdges()
+        #printNodesReached()
+        #printAvailableEdges()
 
         if(len(availableEdges) > 0):
             bestAvailableEdge = getBestAvailableEdge()
+            selectedEdges.append(bestAvailableEdge)
             #print("Lowest available edge: " + str(bestAvailableEdge.weight) + " to node " + str(bestAvailableEdge.otherNode.id))
             currentNode = bestAvailableEdge.otherNode
         
-
+        print(str(len(nodesReached)) + "/" + str(graphSize))
         
     
-
-    #printNodesReached()
+    printSelectedEdges()
     
 
 
@@ -43,12 +44,12 @@ def newNodeReached(graph, newNode):
         for edge in graph.nodes[node.id].connectedEdges:
             if(edge.otherNode.id == newNode.id):
                 graph.nodes[node.id].connectedEdges.remove(edge)
-    print("-----------------UPDATED GRAPH-----------------")
+    """print("-----------------UPDATED GRAPH-----------------")
     for node in graph.nodes:
         for edge in graph.nodes[node.id].connectedEdges:
             print("Node " + str(node.id) + ", edge " + str(edge.otherNode.id))
-    print("-----------------------------------------------")
-    
+    print("-----------------------------------------------")"""
+
     #Remove every edge on "availableEdges" that leads to the reached node
     availableEdges[:] = [edge for edge in availableEdges if not (edge.otherNode == newNode)]
 
@@ -58,6 +59,8 @@ def newNodeReached(graph, newNode):
 
     #Add new node to "nodesReached" vector
     nodesReached.append(newNode)
+
+
 
 def getBestAvailableEdge():
     if(len(availableEdges) > 0):
@@ -71,21 +74,27 @@ def getBestAvailableEdge():
 
 def printNodesReached():
     print("-----Nodes Reached------")
-    for i in range(0, len(nodesReached)):
-        print(nodesReached[i].id)
+    """for i in range(0, len(nodesReached)):
+        print(nodesReached[i].id)"""
+    print(nodesReached)
     print("------------------------")
 
 def printAvailableEdges():
     print("-----Available Edges------")
     for i in range(0, len(availableEdges)):
-        print("- " + str(availableEdges[i].weight) + " -> " + str(availableEdges[i].otherNode.id))
+        print(str(availableEdges[i].originalNode.id) + " - " + str(availableEdges[i].weight) + " -> " + str(availableEdges[i].otherNode.id))
     print("--------------------------")
 
+def printSelectedEdges():
+    print("-----------Selected Edges-----------")
+    for i in range(0, len(selectedEdges)):
+        print(str(selectedEdges[i].originalNode.id) + " - " + str(selectedEdges[i].weight) + " -> " + str(selectedEdges[i].otherNode.id))
+    print("------------------------------------")
 
 
 
-graph = Graph(8)
-graph.print()
 
+graph = Graph(100)
+#graph.print()
 prim(graph)
 

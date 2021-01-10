@@ -3,7 +3,8 @@ from functools import total_ordering
 @total_ordering
 class Edge:
 
-    def __init__(self, otherNode, weight):
+    def __init__(self, originalNode, otherNode, weight):
+        self.originalNode = originalNode
         self.otherNode = otherNode
         self.weight = weight
 
