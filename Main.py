@@ -1,5 +1,6 @@
 import random
-import bisect 
+import bisect
+import time
 from operator import attrgetter
 from Graph import Graph
 
@@ -11,6 +12,7 @@ availableEdges = []
 def prim(graph):
     graphSize = len(graph.nodes)
     print("PRIM'S ALGORITHM : " + str(graphSize))
+    startTime = time.time()
     currentVertexIndex = random.randint(0, len(graph.nodes)-1)#RANDOM
     #print("Initial Vertex = " + str(currentVertexIndex))
 
@@ -29,10 +31,13 @@ def prim(graph):
             #print("Lowest available edge: " + str(bestAvailableEdge.weight) + " to node " + str(bestAvailableEdge.otherNode.id))
             currentNode = bestAvailableEdge.otherNode
         
-        print(str(len(nodesReached)) + "/" + str(graphSize))
+        #print(str(len(nodesReached)) + "/" + str(graphSize))
         
-    
+    endTime = time.time()
     printSelectedEdges()
+    print("Elapsed Time: " + str(endTime-startTime) + " s")
+    print("Sum of all edges weight in MST: " + str(sum(edge.weight for edge in selectedEdges)))
+    print("Weight of the edge with the biggest weight in the MST: " + str(max(selectedEdges).weight))
     
 
 
