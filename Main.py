@@ -31,7 +31,7 @@ def prim(graph):
             #print("Lowest available edge: " + str(bestAvailableEdge.weight) + " to node " + str(bestAvailableEdge.otherNode.id))
             currentNode = bestAvailableEdge.otherNode
         
-        #print(str(len(nodesReached)) + "/" + str(graphSize))
+        print(str(len(nodesReached)) + "/" + str(graphSize))
         
     endTime = time.time()
     printSelectedEdges()
@@ -39,8 +39,6 @@ def prim(graph):
     print("Sum of all edges weight in MST: " + str(sum(edge.weight for edge in selectedEdges)))
     print("Weight of the edge with the biggest weight in the MST: " + str(max(selectedEdges).weight))
     
-
-
     
 
 def newNodeReached(graph, newNode):
@@ -49,6 +47,7 @@ def newNodeReached(graph, newNode):
         for edge in graph.nodes[node.id].connectedEdges:
             if(edge.otherNode.id == newNode.id):
                 graph.nodes[node.id].connectedEdges.remove(edge)
+
     """print("-----------------UPDATED GRAPH-----------------")
     for node in graph.nodes:
         for edge in graph.nodes[node.id].connectedEdges:
@@ -56,7 +55,7 @@ def newNodeReached(graph, newNode):
     print("-----------------------------------------------")"""
 
     #Remove every edge on "availableEdges" that leads to the reached node
-    availableEdges[:] = [edge for edge in availableEdges if not (edge.otherNode == newNode)]
+    availableEdges[:] = [edge for edge in availableEdges if not (edge.otherNode.id == newNode.id)]
 
     #Add the new edges from the new node to the "availabreEdges" vector
     for edge in newNode.connectedEdges:
@@ -73,9 +72,6 @@ def getBestAvailableEdge():
     else:
         print("There are no available edges")
         return
-        
-
-    
 
 def printNodesReached():
     print("-----Nodes Reached------")
@@ -99,7 +95,6 @@ def printSelectedEdges():
 
 
 
-graph = Graph(100)
+graph = Graph(8)
 #graph.print()
 prim(graph)
-
