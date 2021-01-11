@@ -3,6 +3,7 @@ import bisect
 import time
 from operator import attrgetter
 from Graph import Graph
+from Edge import Edge
 
 selectedEdges = []
 nodesReached = []
@@ -14,7 +15,7 @@ def prim(graph):
     print("PRIM'S ALGORITHM : " + str(graphSize))
     startTime = time.time()
     currentVertexIndex = random.randint(0, len(graph.nodes)-1)#RANDOM
-    #print("Initial Vertex = " + str(currentVertexIndex))
+    print("Initial Vertex = " + str(currentVertexIndex))
 
     currentNode = graph.nodes[currentVertexIndex]
 
@@ -22,13 +23,13 @@ def prim(graph):
 
         newNodeReached(graph, currentNode)
         
-        #printNodesReached()
-        #printAvailableEdges()
+        printNodesReached()
+        printAvailableEdges()
 
         if(len(availableEdges) > 0):
             bestAvailableEdge = getBestAvailableEdge()
             selectedEdges.append(bestAvailableEdge)
-            #print("Lowest available edge: " + str(bestAvailableEdge.weight) + " to node " + str(bestAvailableEdge.otherNode.id))
+            print("Lowest available edge: " + str(bestAvailableEdge.weight) + " to node " + str(bestAvailableEdge.otherNode.id))
             currentNode = bestAvailableEdge.otherNode
         
         print(str(len(nodesReached)) + "/" + str(graphSize))
@@ -42,24 +43,35 @@ def prim(graph):
     
 
 def newNodeReached(graph, newNode):
-    #Remove every edge on other nodes that leads to the reached node
+    #Remove every edge on other nodes that connects to the reached node in either originalNode or otherNode
+    #Add the new edges from the new node to the "availabreEdges" vector, if needed altered with the newNode in the originalNode
     for node in graph.nodes:
-        for edge in graph.nodes[node.id].connectedEdges:
-            if(edge.otherNode.id == newNode.id):
+        for edge in reversed(graph.nodes[node.id].connectedEdges):
+            print("Checking edge: " + str(edge.originalNode.id) + " -> " + str(edge.otherNode.id))
+            if(edge.originalNode.id == newNode.id):
+                print("Insert into availableEdges the original edge: " + str(edge.originalNode.id) + " -> " + str(edge.otherNode.id))
+                bisect.insort(availableEdges, edge)
+                graph.nodes[node.id].connectedEdges.remove(edge)
+            elif(edge.otherNode.id == newNode.id):
+                reversedEdge = Edge(edge.otherNode, edge.originalNode, edge.weight)
+                print("Insert into availableEdges the reversed edge: " + str(reversedEdge.originalNode.id) + " -> " + str(reversedEdge.otherNode.id))
+                bisect.insort(availableEdges, reversedEdge)
                 graph.nodes[node.id].connectedEdges.remove(edge)
 
-    """print("-----------------UPDATED GRAPH-----------------")
+    
+
+    print("-----------------UPDATED GRAPH-----------------")
     for node in graph.nodes:
         for edge in graph.nodes[node.id].connectedEdges:
-            print("Node " + str(node.id) + ", edge " + str(edge.otherNode.id))
-    print("-----------------------------------------------")"""
+            print("Node " + str(edge.originalNode.id) + ", edge " + str(edge.otherNode.id))
+    print("-----------------------------------------------")
 
     #Remove every edge on "availableEdges" that leads to the reached node
     availableEdges[:] = [edge for edge in availableEdges if not (edge.otherNode.id == newNode.id)]
 
     #Add the new edges from the new node to the "availabreEdges" vector
-    for edge in newNode.connectedEdges:
-        bisect.insort(availableEdges, edge)
+    """for edge in newNode.connectedEdges:
+        bisect.insort(availableEdges, edge)"""
 
     #Add new node to "nodesReached" vector
     nodesReached.append(newNode)
@@ -75,9 +87,8 @@ def getBestAvailableEdge():
 
 def printNodesReached():
     print("-----Nodes Reached------")
-    """for i in range(0, len(nodesReached)):
-        print(nodesReached[i].id)"""
-    print(nodesReached)
+    for i in range(0, len(nodesReached)):
+        print(nodesReached[i].id)
     print("------------------------")
 
 def printAvailableEdges():
@@ -95,6 +106,6 @@ def printSelectedEdges():
 
 
 
-graph = Graph(8)
-#graph.print()
+graph = Graph(4)
+graph.print()
 prim(graph)

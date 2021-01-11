@@ -19,9 +19,9 @@ class Graph:
                 if(i < j):
                     newEdge = Edge(self.nodes[i], self.nodes[j],random.uniform(0, 1))#RANDOM
                     self.nodes[i].connectedEdges.append(newEdge)
-                elif(i > j):
+                """elif(i > j):
                     newEdge = Edge(self.nodes[i], self.nodes[j], self.nodes[j].connectedEdges[i-1].weight) 
-                    self.nodes[i].connectedEdges.append(newEdge)
+                    self.nodes[i].connectedEdges.append(newEdge)"""
                 
         
 
