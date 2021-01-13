@@ -4,9 +4,18 @@ from Node import Node
 
 class Graph:
 
-    def __init__(self, nodesNum):
+    def __init__(self, nodesNum, seed):
         self.nodes = []
         self.edges = []
+
+        if(seed):
+            print("Seed: " + str(seed))
+            random.seed(seed)
+        else:
+            print("No Seed")
+            random.seed()
+        #Initiate seed with a value to repeatedly generate the same random weighted edges
+        #if left empty the current system time is used
 
         #Generate Nodes
         for i in range(0, nodesNum):
@@ -17,12 +26,8 @@ class Graph:
         for i in range(0, nodesNum):
             for j in range(0, nodesNum):
                 if(i < j):
-                    newEdge = Edge(self.nodes[i], self.nodes[j],random.uniform(0, 1))#RANDOM
-                    self.nodes[i].connectedEdges.append(newEdge)
-                """elif(i > j):
-                    newEdge = Edge(self.nodes[i], self.nodes[j], self.nodes[j].connectedEdges[i-1].weight) 
-                    self.nodes[i].connectedEdges.append(newEdge)"""
-                
+                    newEdge = Edge(self.nodes[i], self.nodes[j],random.random())#RANDOM
+                    self.nodes[i].connectedEdges.append(newEdge)               
         
 
     def print(self):

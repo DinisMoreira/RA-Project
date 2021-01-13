@@ -1,6 +1,7 @@
 import random
 import bisect
 import time
+import string
 from operator import attrgetter
 from Graph import Graph
 from Edge import Edge
@@ -10,11 +11,17 @@ nodesReached = []
 availableEdges = []
 
 
-def prim(graph):
+def prim(graph, removingEdges):
     graphSize = len(graph.nodes)
+
+
     print("PRIM'S ALGORITHM : " + str(graphSize))
     startTime = time.time()
-    currentVertexIndex = random.randint(0, len(graph.nodes)-1)#RANDOM
+
+    if(removingEdges):
+        removeBigEdges(graph, graphSize)
+
+    currentVertexIndex = 0#random.randint(0, graphSize-1)#RANDOM
     #print("Initial Vertex = " + str(currentVertexIndex))
 
     currentNode = graph.nodes[currentVertexIndex]
@@ -74,6 +81,18 @@ def newNodeReached(graph, newNode):
     nodesReached.append(newNode)
 
 
+def removeBigEdges(graph, graphSize):
+    maximumEdgeWeight = 0.4-0.000048*graphSize
+    print("Biggest edge: " + str(maximumEdgeWeight))
+    i=0
+    for node in graph.nodes:
+        print(i)
+        i = i + 1
+        for edge in reversed(graph.nodes[node.id].connectedEdges):
+            if(edge.weight > maximumEdgeWeight):
+                graph.nodes[node.id].connectedEdges.remove(edge)
+                #print("Removing edge " + str(edge.originalNode.id) + " - " + str(edge.weight) + " -> " + str(edge.otherNode.id))
+
 
 def getBestAvailableEdge():
     if(len(availableEdges) > 0):
@@ -101,8 +120,9 @@ def printSelectedEdges():
     print("------------------------------------")
 
 
-
-
-graph = Graph(16)
+numberOfNodes = 16
+removingEdges = True
+seed = None
+graph = Graph(numberOfNodes, seed)
 #graph.print()
-prim(graph)
+prim(graph, removingEdges)
