@@ -12,3 +12,5 @@ This project was implemented using Python v3.8.5
 To run on a machine with Python 3 installed, from the RA-Project directory, type:
 
     $ python Main.py
+
+The parameters (Number of nodes, seed, and whether or not to exclude big edges according to k(n)) can be easily edited on lines 87, 88 and 89 of the Main.py file
