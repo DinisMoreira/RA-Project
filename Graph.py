@@ -4,7 +4,7 @@ from Node import Node
 
 class Graph:
 
-    def __init__(self, nodesNum, seed):
+    def __init__(self, nodesNum, seed, excludingEdges):
         self.nodes = []
         self.edges = []
 
@@ -14,20 +14,24 @@ class Graph:
         else:
             print("No Seed")
             random.seed()
-        #Initiate seed with a value to repeatedly generate the same random weighted edges
-        #if left empty the current system time is used
 
         #Generate Nodes
         for i in range(0, nodesNum):
             newNode = Node(i)
             self.nodes.append(newNode)
-
+        
         #Generate Node Edges
+        maximumEdgeWeight = 1
+        if(excludingEdges):
+            maximumEdgeWeight = 1/(0.075 * nodesNum)
+            print("Excluding every edge with weight above: " + str(maximumEdgeWeight))
         for i in range(0, nodesNum):
             for j in range(0, nodesNum):
                 if(i < j):
-                    newEdge = Edge(self.nodes[i], self.nodes[j],random.random())#RANDOM
-                    self.nodes[i].connectedEdges.append(newEdge)               
+                    weight = random.random()
+                    if(weight < maximumEdgeWeight or not excludingEdges):
+                        newEdge = Edge(self.nodes[i], self.nodes[j], weight)
+                        self.nodes[i].connectedEdges.append(newEdge)               
         
 
     def print(self):
